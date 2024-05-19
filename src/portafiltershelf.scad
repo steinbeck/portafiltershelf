@@ -5,36 +5,35 @@ By: Christoph Steinbeck
 version: 1.0
 Date: 17 May 2024
 
-This customizable portafilter and espresso accessory shelf and holder used code modules by Eric Buijs 
-(https://www.printables.com/de/model/91734-parametric-hook-with-source-file/files)
+This customizable portafilter and espresso accessory shelf and holder used code modules from https://github.com/gpambrozio/OpenSCAD/blob/master/door-hook.scad
 and Daniel Upshaw (http://danielupshaw.com/openscad-rounded-corners/)
 Thanks to both of them for open-sourcing their code. 
 
-
-
-
 Changelog
 Version 1.0 First version with two shelves with two little pits of portafilter size, one cut-out for the portafilter to hang and one hook to hold my brush for the brew group.
-
 */
 
 
 
 
-portafilter_size = 58;
+
+edge_radius = 4; //
+portafilter_size = 69;
+filter_size = 58;
+
 // the number of containers on one shelf, such as two little dips to hold damper and WDT and one recess for the portafilter itself
 num_container = 3;
 spacer_size = 10;
 
 num_shelfs = 2;
-wall_thickness = 5;
+wall_thickness = 10;
 shelf_dist = portafilter_size * 1.5;
-portafilter_hold_width = portafilter_size * 0.9;
-portafilter_hold_depth = 40;
+portafilter_hold_width = portafilter_size * 0.95;
+portafilter_hold_depth = 35;
 portafilter_hold_neck_width = 20;
-shelf_width = portafilter_size * 2 + wall_thickness * 2 + 4 * spacer_size + portafilter_hold_width;
-usable_space = shelf_width - 2 * wall_thickness;// The usable witdh on a shelf between the two stabilizers
-edge_radius = 2;
+shelf_width = (filter_size + 1) * 2 + wall_thickness * 2 + 4 * spacer_size + portafilter_hold_width + 2 * edge_radius;
+usable_space = shelf_width - (2 * wall_thickness);// The usable witdh on a shelf between the two stabilizers
+
 
 
 
@@ -50,9 +49,9 @@ translate([0, shelf_dist, 0]) {
     difference() {
       shelf1();
 
-      translate([wall_thickness + spacer_size + portafilter_size / 2, wall_thickness + 1, portafilter_size * .75 + wall_thickness / 2])
+      translate([edge_radius + wall_thickness + spacer_size + filter_size / 2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
-      translate([wall_thickness + spacer_size * 2 + portafilter_size * 1.5, wall_thickness + 1, portafilter_size * .75 + wall_thickness / 2])
+      translate([edge_radius + wall_thickness + spacer_size * 2 + filter_size * 1.5, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
     }
   }  
@@ -64,14 +63,14 @@ difference() {
     difference() {
       shelf1();
 
-      translate([wall_thickness + spacer_size + portafilter_size / 2, wall_thickness + 1, portafilter_size * .75 + wall_thickness / 2])
+      translate([edge_radius + wall_thickness + spacer_size + filter_size / 2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
-      translate([wall_thickness + spacer_size * 2 + portafilter_size * 1.5, wall_thickness + 1, portafilter_size * .75 + wall_thickness / 2])
+      translate([edge_radius + wall_thickness + spacer_size * 2 + filter_size * 1.5, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
     }
   }
 
-  translate([wall_thickness + spacer_size * 3 + portafilter_size * 2, -2, 25 + wall_thickness / 2])
+  translate([edge_radius + wall_thickness + spacer_size * 3 + filter_size * 2, -2, 25 + wall_thickness / 2])
     portafilter_pit();
 }
 
@@ -97,7 +96,7 @@ module stabiliser() {
 }
 
 module shelf1() {
-  roundedcube([shelf_width, wall_thickness, portafilter_size * 1.5], false, edge_radius);
+  roundedcube([shelf_width, wall_thickness, filter_size * 1.5], false, edge_radius);
   translate([wall_thickness / 2 + edge_radius, wall_thickness, 0])
     stabiliser();
   translate([wall_thickness / 2 + shelf_width - wall_thickness - edge_radius, wall_thickness, 0])
@@ -107,23 +106,32 @@ module shelf1() {
 
 module 58mm_pit() {
   rotate(a = [90, -90, 0]) {
-    cylinder(h = wall_thickness / 3, r = portafilter_size / 2);
+    cylinder(h = wall_thickness / 3, r = filter_size / 2);
   }
 }
 
 module portafilter_pit() {
   roundedcube([portafilter_hold_width, wall_thickness + 10, portafilter_hold_depth], false, 5);
-  translate([portafilter_size * 0.9 / 2 - 10, 0, 38])
-    cube([portafilter_hold_neck_width, wall_thickness + 10, 30]);
+  translate([portafilter_size * 0.95 / 2 - 10, 0, 30])
+    cube([portafilter_hold_neck_width, wall_thickness + 10, 40]);
 
 }
 
 
-  translate([(usable_space - portafilter_hold_width) /2, 5, 0]) {
+  translate([60, 5, 0]) {
       rotate(a = [0, -90, 0]) {
         wall_hook();
       }
   }
+
+  translate([140, 5, 0]) {
+      rotate(a = [0, -90, 0]) {
+        wall_hook();
+      }
+  }
+
+
+
 
 // More information: https://danielupshaw.com/openscad-rounded-corners/
 
