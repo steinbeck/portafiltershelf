@@ -22,7 +22,7 @@ portafilter_size = 69;
 filter_size = 58;
 
 // the number of containers on one shelf, such as two little dips to hold damper and WDT and one recess for the portafilter itself
-num_container = 3;
+num_container = 2;
 spacer_size = 10;
 
 num_shelfs = 2;
@@ -31,11 +31,8 @@ shelf_dist = portafilter_size * 1.5;
 portafilter_hold_width = portafilter_size * 0.95;
 portafilter_hold_depth = 35;
 portafilter_hold_neck_width = 20;
-shelf_width = (filter_size + 1) * 2 + wall_thickness * 2 + 4 * spacer_size + portafilter_hold_width + 2 * edge_radius;
+shelf_width = (filter_size + 1) + wall_thickness * 2 + 4 * spacer_size + portafilter_hold_width + 2 * edge_radius;
 usable_space = shelf_width - (2 * wall_thickness);// The usable witdh on a shelf between the two stabilizers
-
-
-
 
 // The backplate of the shelf
 roundedcube([shelf_width, num_shelfs * shelf_dist * .82, wall_thickness], false, edge_radius);
@@ -49,9 +46,10 @@ translate([0, shelf_dist, 0]) {
     difference() {
       shelf1();
 
-      translate([edge_radius + wall_thickness + spacer_size + filter_size / 2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
+      temp_spacer = (usable_space - 2*filter_size)/3;
+      translate([edge_radius + wall_thickness + temp_spacer + filter_size / 2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
-      translate([edge_radius + wall_thickness + spacer_size * 2 + filter_size * 1.5, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
+      translate([usable_space - wall_thickness - filter_size/2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
     }
   }  
@@ -65,15 +63,12 @@ difference() {
 
       translate([edge_radius + wall_thickness + spacer_size + filter_size / 2, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
         58mm_pit();
-      translate([edge_radius + wall_thickness + spacer_size * 2 + filter_size * 1.5, wall_thickness + 1, filter_size * .75 + wall_thickness / 2])
-        58mm_pit();
     }
-  }
-
-  translate([edge_radius + wall_thickness + spacer_size * 3 + filter_size * 2, -2, 25 + wall_thickness / 2])
-    portafilter_pit();
 }
 
+  translate([edge_radius + wall_thickness + spacer_size * 3 + filter_size, -2, 25 + wall_thickness / 2])
+    portafilter_pit();
+}
 
 module stabiliser() {
   b = 50;
@@ -118,13 +113,7 @@ module portafilter_pit() {
 }
 
 
-  translate([60, 5, 0]) {
-      rotate(a = [0, -90, 0]) {
-        wall_hook();
-      }
-  }
-
-  translate([140, 5, 0]) {
+  translate([(edge_radius + wall_thickness + spacer_size + filter_size / 2) + 15, 15, 0]) {
       rotate(a = [0, -90, 0]) {
         wall_hook();
       }
