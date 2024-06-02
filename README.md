@@ -8,3 +8,4 @@ And the printed reality:
 
 ![A photo of the 3D printed portafiltershelf in action](images/portafiltershelf-photo.png "A photo of the portafiltershelf in action")
 
+I used two Tesa Powerstrips to stick it to the wall. Works well so far :)
