@@ -1,5 +1,6 @@
 # Portafiltershelf
-Portafiltershelf is an OpenSCAD model of a wall-mounted shelf for your portafilter and accessories. 
+Portafiltershelf is an OpenSCAD model of a wall-mounted shelf for your portafilter and accessories.
+Check the models folder for a printable STL file. The openSCAD file is in the src folder. 
 
 ![A rendering of the portafiltershelf](images/rendering.png "A rendering of the portafiltershelf")
 
